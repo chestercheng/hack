@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+hack() {
+  bin=${FUNCNAME[0]}
+
+  [ -n "${YHDEBUG}" ] && {
+    set -x
+  }
+
+  display() {
+    case $1 in
+      error)
+        echo -e "\e[031m$2\e[0m" >&2
+        ;;
+      warn)
+        echo -e "\e[033m$2\e[0m"
+        ;;
+      *) echo -e "$1"
+    esac
+  }
+
+  cmd=$1
+  if [ -f "${YHROOT}/etc/commands/${cmd}" ]; then
+    shift
+    . "${YHROOT}/etc/commands/${cmd}"
+    return $?
+  elif [[ -z ${cmd} || ${cmd} = help ]]; then
+    display "Usage: ${bin} [command]
+
+Description:
+  My hacking space
+
+Commands:
+  use   - select a environment to use
+  off   - deactivate environment
+  build - build applications"
+  else
+    display error "Unrecognized command line argument: '${cmd}'"
+  fi
+}
+
+# vim: set et nu nobomb fenc=utf8 ft=sh ff=unix sw=2 ts=2:

@@ -1,0 +1,34 @@
+if [[ "x$1" == x ]] || [[ "$1" == "--list" ]]; then
+  display "available applications:\n$(ls --color=never -1 ${YHROOT}/build.d 2>/dev/null)"
+  return
+fi
+
+if [ ! -d "${YHROOT}/build.d/$1" ]; then
+  display error "'$1' not defined"
+  return
+fi
+
+if [ -z "${YHFLAVOR}" ] ; then
+  display error "\$YHFLAVOR not defined"
+  return
+fi
+
+scriptname=$1
+scriptdir=${YHROOT}/build.d/${scriptname}
+script=${scriptdir}/build-${scriptname}.sh
+if [ ! -e ${script} ]; then
+  script=${scriptdir}/build.sh
+fi
+if [ ! -e $script ] ; then
+  display error "neither build-${scriptname}.sh nor build.sh is found in ${scriptdir}"
+fi
+
+display "execute building script \"${script}\" ${@:$(($#+1))} ..."
+curpath=$(pwd)
+. ${YHROOT}/etc/functions/buildutil && \
+  FLAVOR=${YHFLAVOR} YHDL=${YHROOT}/downloaded INSTALLDIR=${YHROOT}/usr/${YHFLAVOR} \
+  . ${script} "${@:$(($#+1))}"
+cd ${curpath}
+display "finished building script \"${script}\"."
+
+# vim: set et nu nobomb fenc=utf8 ft=sh ff=unix sw=2 ts=2:

@@ -1,0 +1,51 @@
+export YHROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export YHPATH_BACKUP="${PATH}"
+case "$(uname)" in
+  Darwin)
+    export YHLIBRARY_PATH_BACKUP="${DYLD_LIBRARY_PATH}"
+    export NP=$(sysctl -n hw.ncpu)
+    ;;
+  Linux)
+    export YHLIBRARY_PATH_BACKUP="${LD_LIBRARY_PATH}"
+    export NP=$(cat /proc/cpuinfo | grep processor | wc -l)
+    ;;
+  *)
+    export NP=1
+    ;;
+esac
+
+. ${YHROOT}/bin/hack
+
+# completion for hack
+_hack() {
+  local cur prev opts base
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	base="${COMP_WORDS[0]}"
+	cmd="${COMP_WORDS[1]}"
+
+  case "${cmd}" in
+    use)
+      [[ $COMP_CWORD > 2 ]] && return 1
+      envs=$(ls --color=never -1 ${YHROOT}/usr 2>/dev/null)
+      COMPREPLY=( $(compgen -W "${envs}" -- ${cur}) )
+			return 0
+      ;;
+    build)
+      [[ $COMP_CWORD > 2 ]] && return 1
+      apps=$(ls --color=never -1 ${YHROOT}/build.d 2>/dev/null)
+      COMPREPLY=( $(compgen -W "${apps}" -- ${cur}) )
+			return 0
+      ;;
+    *)
+      [[ $COMP_CWORD > 1 ]] && return 1
+      cmds=$(ls --color=never -1 ${YHROOT}/etc/commands)
+      COMPREPLY=($(compgen -W "${cmds}" -- ${cur}))
+      return 0
+      ;;
+  esac
+}
+
+complete -F _hack hack
+
+# vim: set et nu nobomb fenc=utf8 ft=sh ff=unix sw=2 ts=2:

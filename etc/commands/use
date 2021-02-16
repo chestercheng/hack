@@ -1,0 +1,21 @@
+if [[ "x$1" == x ]] || [[ "$1" == "--list" ]]; then
+  display "available environments:\n$(ls --color=never -1 ${YHROOT}/usr 2>/dev/null)"
+  return
+fi
+
+if [ ! -d "${YHROOT}/usr/$1" ]; then
+  display error "not hacking"
+  return
+fi
+
+. ${YHROOT}/etc/functions/bashutil
+
+if [ ! -z "${YHFLAVOR}" ] ; then
+  hack_impl remove ${YHFLAVOR}
+fi
+
+hack_impl munge $1
+export YHFLAVOR=$1
+echo "now using '${YHFLAVOR}'"
+
+# vim: set et nu nobomb fenc=utf8 ft=sh ff=unix sw=2 ts=2:

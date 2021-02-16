@@ -1,0 +1,12 @@
+if [ -z "${YHFLAVOR}" ] ; then
+  display error "\$YHFLAVOR not defined"
+  return
+fi
+
+. ${YHROOT}/etc/functions/bashutil
+
+display "'${YHFLAVOR}' to be turned off"
+hack_impl remove $1
+unset YHFLAVOR
+
+# vim: set et nu nobomb fenc=utf8 ft=sh ff=unix sw=2 ts=2:

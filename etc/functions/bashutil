@@ -1,0 +1,35 @@
+namemunge () {
+  if ! echo ${!1} | egrep -q "(^|:)$2($|:)" ; then
+    if [ -z "${!1}" ] ; then
+      eval "$1=$2"
+    else
+      if [ "$3" == "after" ] ; then
+        eval "$1=\$$1:$2"
+      else
+        eval "$1=$2:\$$1"
+      fi
+    fi
+  fi
+  eval "export $1"
+}
+
+# see http://stackoverflow.com/a/370192/1805420
+nameremove () {
+  eval "export $1=$(echo -n ${!1} | awk -v RS=: -v ORS=: -v var="$2" '$0 != var' | sed 's/:*$//')"
+}
+
+hack_impl() {
+  case "$(uname)" in
+    Darwin)
+      libpath=DYLD_LIBRARY_PATH
+      ;;
+    *)
+      libpath=LD_LIBRARY_PATH
+      ;;
+  esac
+
+  eval "name$1 PATH ${YHROOT}/usr/$2/bin"
+  eval "name$1 ${libpath} ${YHROOT}/$2/lib"
+}
+
+# vim: set et nu nobomb fenc=utf8 ft=sh ff=unix sw=2 ts=2:
