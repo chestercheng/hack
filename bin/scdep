@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-pip3 install -U \
-  cython sphinx ipython jupyter nose pytest paramiko boto pythreejs netCDF4
