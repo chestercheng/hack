@@ -1,5 +1,5 @@
 if [[ "x$1" == x ]] || [[ "$1" == "--list" ]]; then
-  display "available environments:\n$(ls --color=never -1 ${YHROOT}/usr 2>/dev/null)"
+  display "available environments:\n$(displaydir ${YHROOT}/usr)"
   return
 fi
 

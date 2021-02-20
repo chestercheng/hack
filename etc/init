@@ -27,19 +27,19 @@ _hack() {
   case "${cmd}" in
     use)
       [[ $COMP_CWORD > 2 ]] && return 1
-      envs=$(ls --color=never -1 ${YHROOT}/usr 2>/dev/null)
+      envs=$(displaydir ${YHROOT}/usr)
       COMPREPLY=( $(compgen -W "${envs}" -- ${cur}) )
 			return 0
       ;;
     build)
       [[ $COMP_CWORD > 2 ]] && return 1
-      apps=$(ls --color=never -1 ${YHROOT}/build.d 2>/dev/null)
+      apps=$(displaydir ${YHROOT}/build.d)
       COMPREPLY=( $(compgen -W "${apps}" -- ${cur}) )
 			return 0
       ;;
     *)
       [[ $COMP_CWORD > 1 ]] && return 1
-      cmds=$(ls --color=never -1 ${YHROOT}/etc/commands)
+      cmds=$(displaydir ${YHROOT}/etc/commands)
       COMPREPLY=($(compgen -W "${cmds}" -- ${cur}))
       return 0
       ;;

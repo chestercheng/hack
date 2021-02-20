@@ -1,5 +1,5 @@
 if [[ "x$1" == x ]] || [[ "$1" == "--list" ]]; then
-  display "available applications:\n$(ls --color=never -1 ${YHROOT}/build.d 2>/dev/null)"
+  display "available applications:\n$(displaydir ${YHROOT}/build.d)"
   return
 fi
 

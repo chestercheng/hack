@@ -18,6 +18,14 @@ hack() {
     esac
   }
 
+  displaydir() {
+    if [ "$(uname)" == "Darwin" ]; then
+      eval "/bin/ls ${1} 2>/dev/null"
+    else
+      eval "/bin/ls --color=never -1 ${1} 2>/dev/null"
+    fi 
+  }
+
   cmd=$1
   if [ -f "${YHROOT}/etc/commands/${cmd}" ]; then
     shift
