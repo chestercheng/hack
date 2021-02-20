@@ -1,0 +1,12 @@
+if [ ! -d "${YHROOT}/usr/$1" ]; then
+  mkdir -p ${YHROOT}/usr/${1}
+  display "create '${1}' hack environment."
+  return
+elif [ -z $1 ]; then
+  display error "must need an argument!!"
+else
+  display error "'$1' already exist!!"
+  return
+fi
+
+# vim: set et nu nobomb fenc=utf8 ft=sh ff=unix sw=2 ts=2:

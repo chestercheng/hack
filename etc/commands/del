@@ -1,0 +1,10 @@
+if [ -z ${1} ]; then
+  display "must need an argument!!"
+  return
+else
+  rm -rf ${YHROOT}/usr/${1}
+  display "removing '${1}' hack environment"
+  return
+fi
+
+# vim: set et nu nobomb fenc=utf8 ft=sh ff=unix sw=2 ts=2:
