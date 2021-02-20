@@ -3,6 +3,7 @@ if [ -z ${1} ]; then
   return
 else
   rm -rf ${YHROOT}/usr/${1}
+  rm -rf ${YHROOT}/src/${1}
   display "removing '${1}' hack environment"
   return
 fi
