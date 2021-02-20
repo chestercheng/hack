@@ -30,7 +30,9 @@ Description:
   My hacking space
 
 Commands:
-  use   - select a environment to use
+  add   - create a new hack environment
+  use   - select an environment to use
+  del   - delete an environment directory
   off   - deactivate environment
   build - build applications"
   else
