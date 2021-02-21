@@ -19,13 +19,13 @@ esac
 # completion for hack
 _hack() {
   local cur prev opts base
-	COMPREPLY=()
+	COMPREPLY=() 
 	cur="${COMP_WORDS[COMP_CWORD]}"
 	base="${COMP_WORDS[0]}"
 	cmd="${COMP_WORDS[1]}"
-
+ 
   case "${cmd}" in
-    use)
+    use|del)
       [[ $COMP_CWORD > 2 ]] && return 1
       envs=$(displaydir ${YHROOT}/usr)
       COMPREPLY=( $(compgen -W "${envs}" -- ${cur}) )
